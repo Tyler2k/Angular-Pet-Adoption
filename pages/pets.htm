@@ -1,0 +1,23 @@
+<p>
+   <a href="#/">
+      <input type="submit" href="#/" class="btn btn-success" value="Back to Search" />
+   </a>
+</p>
+
+<h1 class=" near text-center">Pets near {{ zip }}</h1>
+<hr />
+<h3 class="text-center">Click on a pet for more information</h3>
+<br />
+
+<div ng-repeat="dog in petResult.petfinder.pets.pet">
+   <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+      <a href="https://www.petfinder.com/petdetail/{{ dog.id.$t }}" target="_blank">
+         <div class="listing">
+            <img class="img-responsive" ng-src=" {{ hasImage(dog.media.photos.photo[2].$t) }}">
+            <span class="name">{{ dog.name.$t }}</span>
+            <hr><span class="info">{{ size(dog.size.$t) }} &#xb7 {{ dog.age.$t }} &#xb7 {{ sex(dog.sex.$t) }} <hr>
+               {{ dog.breeds.breed.$t }} {{ isUndefined(dog.breeds.breed[0].$t) }} {{ dog.breeds.breed[1].$t }} </span>
+         </div>
+      </a>
+   </div>
+</div>
