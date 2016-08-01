@@ -1,0 +1,28 @@
+<!--<div class="container">
+   <div ng-repeat="photo in petDetail.petfinder.pet.media.photos.photo">
+      <img ng-src="{{ getPhoto(photo) }}" alt="">
+   </div>
+</div>-->
+
+<!--petDetail.petfinder.pet.media.photos.photo[7].$t-->
+
+<div class="col-md-12">
+   <div ng-controller="petDetailController" id="slides_control">
+      <div id="box">
+         <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
+            <div uib-slide ng-repeat="slide in petDetail.petfinder.pet.media.photos.photo | filter: { '@size': 'x' }" active="active" index="$index">
+               <img ng-src="{{ slide.$t }}" style="margin:auto;" />
+            </div>
+         </div>
+         <div class="petInfo">
+            <h3>ABOUT {{ petDetail.petfinder.pet.name.$t | uppercase }}</h3> <span class="contact">{{ petDetail.petfinder.pet.contact.phone.$t }}<br/>{{ petDetail.petfinder.pet.contact.address1.$t }}
+            <br/>{{ petDetail.petfinder.pet.contact.city.$t }}, {{ petDetail.petfinder.pet.contact.state.$t }} {{ petDetail.petfinder.pet.contact.zip.$t }}<br/>
+            <a target="_blank" href="mailto:href={{ petDetail.petfinder.pet.contact.email.$t }}">{{ petDetail.petfinder.pet.contact.email.$t }}</a></span>
+            {{ petDetail.petfinder.pet.description.$t }}<span class="clearfix"></span>
+            
+            <p class="moreAbout text-center">{{ getOptions(petDetail.petfinder.pet.options.option) }}</p>
+             
+         </div>
+      </div>
+   </div>
+</div>

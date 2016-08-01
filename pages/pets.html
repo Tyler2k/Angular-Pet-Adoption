@@ -11,9 +11,9 @@
 
 <div ng-repeat="dog in petResult.petfinder.pets.pet">
    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-      <a href="https://www.petfinder.com/petdetail/{{ dog.id.$t }}" target="_blank">
-         <div class="listing">
-            <img class="img-responsive" ng-src=" {{ hasImage(dog.media.photos.photo[2].$t) }}">
+      <a href="#/petDetail">
+         <div class="listing"  data-id="{{ dog.id.$t }}" ng-click="setID(dog.id.$t)">
+            <img class="img-responsive grid" ng-src=" {{ hasImage(dog.media.photos.photo[2].$t) }}">
             <span class="name">{{ dog.name.$t }}</span>
             <hr><span class="info">{{ size(dog.size.$t) }} &#xb7 {{ dog.age.$t }} &#xb7 {{ sex(dog.sex.$t) }} <hr>
                {{ dog.breeds.breed.$t }} {{ isUndefined(dog.breeds.breed[0].$t) }} {{ dog.breeds.breed[1].$t }} </span>
@@ -21,3 +21,5 @@
       </a>
    </div>
 </div>
+
+

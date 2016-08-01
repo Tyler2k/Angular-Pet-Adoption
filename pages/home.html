@@ -1,0 +1,29 @@
+<div id="home">
+   <div class="box">
+      <div class="col-md-12 options">
+         <h4 class="text-center">Filter Search by Type</h4>
+         <div class="nav nav-pills" data-toggle="buttons">
+            <label class="btn btn-primary" ng-click="setType('dog')">
+               <input type="radio" id="cat" checked> Dogs
+            </label>
+            <label class="btn btn-primary" ng-click="setType('cat')">
+               <input type="radio" id="dog"> Cats
+            </label>
+         </div>
+      </div>
+      <br/>
+      <br/>
+      <br/>
+      <div class="row">
+         <div class="col-md-6 col-md-offset-3">
+            <h3 class="text-center">Enter a zip code to search for pets</h3>
+            <form ng-submit="submit()">
+               <div class="form-group">
+                  <input type="text" ng-model="zip" class="form-control" />
+               </div>
+               <input type="submit" href="#/pets" class="btn btn-success" value="Find Pets" />
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
