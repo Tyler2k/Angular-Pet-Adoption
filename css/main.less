@@ -1,0 +1,198 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:400,300,700);
+@import url(https://fonts.googleapis.com/css?family=Philosopher:400,700);
+@font: Lato,
+sans-serif;
+@shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.75);
+//////////////////////
+//Mixins
+//////////////////////
+.center(@horizontal: true, @vertical: true) {
+   position: absolute;
+   & when ( @horizontal =true) and ( @vertical =true) {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+   }
+   & when ( @horizontal =true) and ( @vertical =false) {
+      left: 50%;
+      transform: translate(-50%, 0);
+   }
+   & when ( @horizontal =false) and ( @vertical =true) {
+      top: 50%;
+      transform: translate(0, -50%);
+   }
+}
+
+body {
+   background-color: antiquewhite;
+}
+/****************
+   HOME
+****************/
+
+.home-wrap {
+   @media(max-width: 768px){
+      width: 80%;
+      height: 70%;
+   }
+   display: inline-block;
+   border-radius: 6px;
+   -webkit-box-shadow: 0px 0px 20px -1px rgba(0, 0, 0, 0.75);
+   -moz-box-shadow: 0px 0px 20px -1px rgba(0, 0, 0, 0.75);
+   box-shadow: 0px 0px 20px -1px rgba(0, 0, 0, 0.75);
+   position: relative;
+   background: rgba(255, 255, 255, .85);
+   width: 40%;
+   height: 40%;
+   &.center-both {
+      .center();
+   }
+}
+
+.box {
+    @media(max-width: 500px){
+      width: 100%;
+   }
+   display: block;
+   width: 80%;
+   margin: 0 auto;
+   padding: 10px;
+   height: 60%;
+}
+
+form {
+   text-align: center;
+   margin: 16px auto;
+   width: 100%;
+}
+.form-control {
+   width: 60%;
+   display: block;
+}
+
+
+
+/******************
+   PET LISTINGS
+******************/
+
+.listing {
+   background-color: white;
+   font-family: @font;
+   width: 100%;
+   border: 2px solid gray;
+   height: 330px;
+   overflow: hidden;
+   -webkit-box-shadow: @shadow;
+   -moz-box-shadow: @shadow;
+   box-shadow: @shadow;
+}
+
+.grid-img {
+   max-width: 100%;
+   height: 100%;
+   display: block;
+   margin: 0 auto;
+   padding: 6px;
+}
+
+.img-wrap {
+   background-color: white;
+   max-width: 100%;
+   height: 70%;
+}
+
+.info-wrap {
+   margin-top: 8px;
+   text-align: center;
+   padding-bottom: 10px;
+}
+
+a {
+   text-decoration: none !important;
+}
+
+hr {
+   margin: 2px;
+   color: grey;
+}
+
+.col-lg-3,
+.col-md-4,
+.col-sm-6,
+.col-xs-12 {
+   padding: 8px;
+}
+
+
+
+.petInfo {
+   padding: 12px;
+}
+
+
+
+#logo-wrap{
+   text-align: center;
+   display: block;
+   font-family: Philosopher, sans-serif;
+   font-weight: 700;
+   font-size: 40px;
+   margin-bottom: 30px;
+   #title {
+      letter-spacing: 3px;
+   }
+   #logo {
+      margin: 0 auto;
+      max-height: 120px;
+      top: 0px;
+   }
+}
+
+/***********************
+   PET DETAILS PAGE
+***********************/
+#details-box {
+   width: 50%;
+   @media(max-width: 1000px){
+      width: 80%;
+   }
+   @media(max-width: 500px){
+      width: 100%;
+   }
+   background-color: white;
+   width: 50%;
+   margin: 0 auto;
+}
+
+.contact {
+   @media(max-width: 500px){
+         width: 100%;
+         float: none;
+         margin: 8px auto;
+   }
+   float: right;
+   background-color: antiquewhite;
+   padding: 12px;
+   display: block;
+   clear: both;
+   margin: 10px;
+}
+
+.moreAbout {
+   background-color: antiquewhite;
+   display: block;
+   margin: 10px;
+   padding: 10px;
+}
+
+.clearfix:after {
+   content: " ";
+   display: table;
+   clear: both;
+}
+
+.slider-img {
+   max-height: 300px;
+   margin: 0 auto;
+}

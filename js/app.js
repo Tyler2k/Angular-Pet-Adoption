@@ -16,20 +16,23 @@ petApp.service("sharedService", function () {
    var getID = function () {
       return id;
    }
-   var newType = function (newType) {
-      type = newType;
-
-   }
 
    var getType = function () {
       return type;
    };
 
+   var getGender = function () {
+      return gender;
+   };
+
+   var getAge = function () {
+      return age;
+   };
+
    return {
       newID: newID
       , getID: getID
-      , newType: newType
-      , getType: getType
+
    };
 
 });
@@ -84,17 +87,14 @@ petApp.controller("petDetailController", ["$scope", "$resource", "sharedService"
    , }, function (data) {
 
    });
-   console.log($scope.petDetail);
 
    $scope.getOptions = function (data) {
       var options = "";
-      var dot = '\&#9658'
       if (data !== undefined) {
          for (var i = 0; i < data.length; i++) {
-            if (data[i+1] !== undefined) {
+            if (data[i + 1] !== undefined) {
                options += data[i].$t + " - ";
-            }
-            else{
+            } else {
                options += data[i].$t;
             }
          }
@@ -109,7 +109,30 @@ petApp.controller("petDetailController", ["$scope", "$resource", "sharedService"
 
 petApp.controller("homeController", ["$scope", "$location", "$routeParams", "sharedService", function ($scope, $location, $routeParams, sharedService) {
 
-   $scope.zip = sharedService.zip;
+   $scope.age = "Age";
+   $scope.ages = ["Baby", "Young", "Adult", "Senior"];
+   $scope.setAge = function (age) {
+      $scope.age = age;
+      sharedService.age = age;
+   }
+
+   $scope.gender = "Gender";
+   $scope.genders = ["Male", "Female"];
+   $scope.setGender = function (gender) {
+      $scope.gender = gender;
+      if (gender === "Male")
+         sharedService.gender = "M";
+      else if (gender === "Female")
+         sharedService.gender = "F";
+   }
+
+   $scope.type = "Type";
+   $scope.types = ["Dog", "Cat", "Bird", "Horse", "Pig", "Reptile", "Barnyard", "Smallfurry"];
+   $scope.setType = function (type) {
+      $scope.type = type;
+      sharedService.type = type.toLowerCase();
+   }
+
    $scope.$watch("zip", function () {
       sharedService.zip = $scope.zip;
    });
@@ -118,21 +141,21 @@ petApp.controller("homeController", ["$scope", "$location", "$routeParams", "sha
       $location.path("/pets");
    }
 
-   $scope.setType = function (type) {
-      sharedService.newType(type);
-   }
 }]);
 
 
 //CONTROLLERS
 petApp.controller("petController", ["$scope", "$resource", "sharedService", function ($scope, $resource, sharedService) {
 
+   $scope.zip = sharedService.zip;
+   $scope.type = sharedService.type;
+   $scope.gender = sharedService.gender;
+   $scope.age = sharedService.age;
+
+
    $scope.setID = function (id) {
       sharedService.newID(id);
    };
-
-
-   $scope.zip = sharedService.zip;
 
    $scope.petAPI = $resource("http://api.petfinder.com/pet.find?key=fa55926ac35934c7a9cba7c6d287c446&format=json", {
       callback: "JSON_CALLBACK"
@@ -142,22 +165,20 @@ petApp.controller("petController", ["$scope", "$resource", "sharedService", func
       }
    });
 
-
-   $scope.shelterAPI = $resource("http://api.petfinder.com/shelter.get?key=fa55926ac35934c7a9cba7c6d287c446&format=json&token=139d1f4e241689651e8c5764f89bd268&id=AZ100", {
-      callback: "JSON_CALLBACK"
-   }, {
-      get: {
-         method: "JSONP"
-      }
-   });
-
-   $scope.type = sharedService.getType();
-
    $scope.petResult = $scope.petAPI.get({
       location: $scope.zip
       , count: "24"
       , animal: $scope.type
+      , sex: $scope.gender
+      , age: $scope.age
    });
+
+   $scope.titleCase = function (type) {
+      if (type !== undefined) {
+         type = type.charAt(0).toUpperCase() + type.substring(1).toLowerCase();
+         return type + "'s" + " near " + $scope.zip;
+      }
+   }
 
 
    $scope.isUndefined = function (data) {

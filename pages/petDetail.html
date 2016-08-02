@@ -8,10 +8,10 @@
 
 <div class="col-md-12">
    <div ng-controller="petDetailController" id="slides_control">
-      <div id="box">
+      <div id="details-box">
          <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
             <div uib-slide ng-repeat="slide in petDetail.petfinder.pet.media.photos.photo | filter: { '@size': 'x' }" active="active" index="$index">
-               <img ng-src="{{ slide.$t }}" style="margin:auto;" />
+               <img class="slider-img" ng-src="{{ slide.$t }}" style="margin:auto;" />
             </div>
          </div>
          <div class="petInfo">

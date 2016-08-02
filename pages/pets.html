@@ -4,7 +4,7 @@
    </a>
 </p>
 
-<h1 class=" near text-center">Pets near {{ zip }}</h1>
+<h1 class=" near text-center">{{titleCase(type)}}</h1>
 <hr />
 <h3 class="text-center">Click on a pet for more information</h3>
 <br />
@@ -12,14 +12,20 @@
 <div ng-repeat="dog in petResult.petfinder.pets.pet">
    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
       <a href="#/petDetail">
-         <div class="listing"  data-id="{{ dog.id.$t }}" ng-click="setID(dog.id.$t)">
-            <img class="img-responsive grid" ng-src=" {{ hasImage(dog.media.photos.photo[2].$t) }}">
-            <span class="name">{{ dog.name.$t }}</span>
-            <hr><span class="info">{{ size(dog.size.$t) }} &#xb7 {{ dog.age.$t }} &#xb7 {{ sex(dog.sex.$t) }} <hr>
+         <div class="listing" data-id="{{ dog.id.$t }}" ng-click="setID(dog.id.$t)">
+            <div class="img-wrap ">
+               <img class="img-responsive grid-img center-horizontal" ng-src=" {{ hasImage(dog.media.photos.photo[2].$t) }}">   
+            </div>
+            <div class="info-wrap">
+               <span class="name">{{ dog.name.$t }}</span>
+               <hr><span class="info">{{ size(dog.size.$t) }} &#xb7 {{ dog.age.$t }} &#xb7 {{ sex(dog.sex.$t) }} <hr>
                {{ dog.breeds.breed.$t }} {{ isUndefined(dog.breeds.breed[0].$t) }} {{ dog.breeds.breed[1].$t }} </span>
+            </div>
          </div>
       </a>
    </div>
 </div>
 
-
+<!--
+ 
+            -->
