@@ -1,31 +1,35 @@
-<p>
-   <a href="#/">
-      <input type="submit" href="#/" class="btn btn-success" value="Back to Search" />
-   </a>
-</p>
-
-<h1 class=" near text-center">{{titleCase(type)}}</h1>
-<hr />
-<h3 class="text-center">Click on a pet for more information</h3>
-<br />
-
-<div ng-repeat="dog in petResult.petfinder.pets.pet">
-   <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-      <a href="#/petDetail">
-         <div class="listing" data-id="{{ dog.id.$t }}" ng-click="setID(dog.id.$t)">
-            <div class="img-wrap ">
-               <img class="img-responsive grid-img center-horizontal" ng-src=" {{ hasImage(dog.media.photos.photo[2].$t) }}">   
-            </div>
-            <div class="info-wrap">
-               <span class="name">{{ dog.name.$t }}</span>
-               <hr><span class="info">{{ size(dog.size.$t) }} &#xb7 {{ dog.age.$t }} &#xb7 {{ sex(dog.sex.$t) }} <hr>
-               {{ dog.breeds.breed.$t }} {{ isUndefined(dog.breeds.breed[0].$t) }} {{ dog.breeds.breed[1].$t }} </span>
-            </div>
-         </div>
+<div ng-show="list">
+   <p>
+      <a href="#/">
+         <input type="submit" href="#/" class="btn btn-success" value="Back to Search" />
       </a>
+   </p>
+
+   <h1 class="near text-center">{{type}}</h1>
+   <hr />
+   <h3 class="text-center">Click on a pet for more information</h3>
+   <br />
+
+   <div ng-repeat="dog in list" class="petContainer">
+      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+         <a ng-click="openModal(dog.id.$t)">
+            <div class="listing" data-id="{{ dog.id.$t }}">
+               <div class="img-wrap ">
+                  <img class="img-responsive grid-img center-horizontal" ng-src=" {{ hasImage(dog.media.photos.photo[2].$t) }}">
+               </div>
+               <div class="info-wrap">
+                  <span class="name">{{ dog.name.$t }}</span>
+                  <hr><span class="info">{{ size(dog.size.$t) }} &#xb7 {{ dog.age.$t }} &#xb7 {{ sex(dog.sex.$t) }} <hr>
+               {{ dog.breeds.breed.$t }} {{ isUndefined(dog.breeds.breed[0].$t) }} {{ dog.breeds.breed[1].$t }} </span>
+               </div>
+            </div>
+         </a>
+      </div>
+   </div>
+   <div id="paginationContainer">
+      <ul id="pagination" uib-pagination total-items="totalItems" ng-change="pageChanged()" ng-model="currentPage" max-size="4" items-per-page="itemsPerPage" class="pagination-sm" boundary-link-numbers="true"></ul>
    </div>
 </div>
-
-<!--
- 
-            -->
+<div ng-show="!list">
+   <h2 class="text-center">Please wait while we find pets near you...</h2>
+</div>

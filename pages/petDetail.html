@@ -6,8 +6,8 @@
 
 <!--petDetail.petfinder.pet.media.photos.photo[7].$t-->
 
-<div class="col-md-12">
-   <div ng-controller="petDetailController" id="slides_control">
+<div ng-show="petDetail" class="col-md-12">
+   <div id="slides_control">
       <div id="details-box">
          <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
             <div uib-slide ng-repeat="slide in petDetail.petfinder.pet.media.photos.photo | filter: { '@size': 'x' }" active="active" index="$index">

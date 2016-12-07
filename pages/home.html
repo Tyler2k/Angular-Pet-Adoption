@@ -1,83 +1,59 @@
 <div class="home-wrap center-both">
    <div class="box">
       <div id="logo-wrap">
-         <img id="logo" class="img-responsive" src="../img/logo.png">
+         <img id="logo" class="img-responsive" src="img/logo.png">
          <span id="title">ADOPT HOPE</span>
       </div>
-      <div class="row text-center">
-         <div class="btn-group" uib-dropdown>
-            <button id="type" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
-               {{type}} <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="type">
-               <li role="menuitem">
-                  <a ng-click="setType(type)" ng-repeat="type in types">{{type}}</a>
-               </li>
-            </ul>
-         </div>
-         <div class="btn-group" uib-dropdown>
-            <button id="gender" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
-               {{gender}} <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="gender">
-               <li role="menuitem">
-                  <a ng-click="setGender(gender)" ng-repeat="gender in genders">{{gender}}</a>
-               </li>
-            </ul>
-         </div>
-         <div class="btn-group" uib-dropdown>
-            <button id="age" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
-               {{age}} <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="age">
-               <li role="menuitem">
-                  <a ng-click="setAge(age)" ng-repeat="age in ages">{{age}}</a>
-               </li>
-            </ul>
-         </div>
-      </div>
-      <div class="row">
-         <form ng-submit="submit()">
-            <input style="display: inline-block;" type="text" ng-model="zip" class="form-control" autofocus/>
-            <input type="submit" href="#/pets" class="btn btn-success text-center" value="SEARCH" />
-         </form>
-      </div>
+      <form ng-submit="submit()">
+         <ul class="options">
+            <li  class="filter">
+               <label for="location">Location</label>
+               <input name="location" style="display: inline-block;" type="text" ng-model="zip" class="form-control" placeholder="ZIP" autofocus/>
+            </li>
+            <li uib-dropdown class="filter">
+               <label for="type">Type</label>
+               <button name="type" id="type" type="button" class="btn btn-primary form-control" uib-dropdown-toggle ng-disabled="disabled">
+                  {{type}} <span class="caret"></span>
+               </button>
+               <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="type">
+                  <li role="menuitem">
+                     <a ng-click="setType(type)" ng-repeat="type in types">{{type}}</a>
+                  </li>
+               </ul>
+            </li>
+            <li uib-dropdown class="filter">
+               <label for="gender">Gender</label>
+               <button name="gender" id="gender" type="button" class="btn btn-primary form-control" uib-dropdown-toggle ng-disabled="disabled">
+                  {{gender}} <span class="caret"></span>
+               </button>
+               <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="gender">
+                  <li role="menuitem">
+                     <a ng-click="setGender(gender)" ng-repeat="gender in genders">{{gender}}</a>
+                  </li>
+               </ul>
+            </li>
+            <li uib-dropdown class="filter">
+               <label for="age">Age</label>
+               <button name="age" id="age" type="button" class="btn btn-primary form-control" uib-dropdown-toggle ng-disabled="disabled">
+                  {{age}} <span class="caret"></span>
+               </button>
+               <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="age">
+                  <li role="menuitem">
+                     <a ng-click="setAge(age)" ng-repeat="age in ages">{{age}}</a>
+                  </li>
+               </ul>
+            </li>
+            <li>
+               <div class="form-group">
+                  <label for="breed">Breed</label>
+                  <input name="breed" type="text" ng-model="breed" uib-typeahead="breed for breed in breedList | filter:$viewValue | limitTo:8" class="form-control" placeholder="Please select Type first" style="font-size: 13px;">
+               </div>
+            </li>
+            <li>
+               <input id="search" ng-disabled="!zip" type="submit" href="#/pets" class="btn btn-success" value="SEARCH" />
+            </li>
+         </ul>
+      </form>
    </div>
 </div>
-
-
-
-
-
-
-
-
-<!--<div id="home">
-   <div class="box">
-      <div class="col-md-12 options">
-         <h4 class="text-center">Filter Search by Type</h4>
-         <div class="nav nav-pills" data-toggle="buttons">
-            <label class="btn btn-primary" ng-click="setType('dog')">
-               <input type="radio" id="cat" checked> Dogs
-            </label>
-            <label class="btn btn-primary" ng-click="setType('cat')">
-               <input type="radio" id="dog"> Cats
-            </label>
-         </div>
-      </div>
-      <br/>
-      <br/>
-      <br/>
-      <div class="row">
-         <div class="col-md-6 col-md-offset-3">
-            <h3 class="text-center">Enter a zip code to search for pets</h3>
-            <form ng-submit="submit()">
-               <div class="form-group">
-                  
-               </div>
-               <input type="submit" href="#/pets" class="btn btn-success" value="Find Pets" />
-            </form>
-         </div>
-      </div>
-   </div>
-</div>-->
+<!--<form ng-submit="submit()" class="navbar-form form-group"> -->
