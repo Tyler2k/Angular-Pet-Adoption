@@ -1,3 +1,3 @@
 # Angular-Pet-Adoption
 
-Allows user to search for cats and dogs in their area needing adoption.
+Allows user to search for animals in their area needing adoption.
