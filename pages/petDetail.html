@@ -6,7 +6,12 @@
 
 <!--petDetail.petfinder.pet.media.photos.photo[7].$t-->
 
-<div ng-show="petDetail" class="col-md-12">
+<div ng-show="petDetail.petfinder.pet.media.photos.photo" class="col-md-12">
+   <div id="logo-wrap" style="margin: 20px 0 0 0; font-size: 16px !important">
+      <img id="logo" class="img-responsive" src="img/logo.png" style="max-height: 76px;">
+      <span id="title">ADOPT HOPE</span>
+   </div>
+   <button type="button" class="close" ng-click="cancel()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
    <div id="slides_control">
       <div id="details-box">
          <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
@@ -15,12 +20,11 @@
             </div>
          </div>
          <div class="petInfo">
-            <h3>ABOUT {{ petDetail.petfinder.pet.name.$t | uppercase }}</h3> <span class="contact">{{ petDetail.petfinder.pet.contact.phone.$t }}<br/>{{ petDetail.petfinder.pet.contact.address1.$t }}
+            <h3 ng-show="petDetail.petfinder.pet.description.$t">ABOUT {{ petDetail.petfinder.pet.name.$t | uppercase }}</h3> <span class="contact">{{ petDetail.petfinder.pet.contact.phone.$t }}<br/>{{ petDetail.petfinder.pet.contact.address1.$t }}
             <br/>{{ petDetail.petfinder.pet.contact.city.$t }}, {{ petDetail.petfinder.pet.contact.state.$t }} {{ petDetail.petfinder.pet.contact.zip.$t }}<br/>
-            <a target="_blank" href="mailto:href={{ petDetail.petfinder.pet.contact.email.$t }}">{{ petDetail.petfinder.pet.contact.email.$t }}</a></span>
-            {{ petDetail.petfinder.pet.description.$t }}<span class="clearfix"></span>
-            
-            <p class="moreAbout text-center">{{ getOptions(petDetail.petfinder.pet.options.option) }}</p>             
+            <a target="_blank" href="mailto:href={{ petDetail.petfinder.pet.contact.email.$t }}">{{ petDetail.petfinder.pet.contact.email.$t }}</a></span> {{ petDetail.petfinder.pet.description.$t }}<span class="clearfix"></span>
+            <p class="moreAbout text-center">{{ getOptions(petDetail.petfinder.pet.options.option) }}</p>
+            <a class="adoptMeButton" ng-href="https://www.petfinder.com/petdetail/{{id}}" target="_blank">Adopt Me!</a>
          </div>
       </div>
    </div>

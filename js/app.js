@@ -1,45 +1,5 @@
 //MODULE
-var petApp = angular.module("petApp", ["ui.bootstrap", "ngRoute", "ngResource", "ngAnimate", "ngCookies", "ngSanitize"]);
-
-
-//SERVICES
-
-petApp.service("sharedService", function () {
-
-
-   var type = "";
-   var id = "";
-
-   var newID = function (newID) {
-      id = newID;
-   }
-   var getID = function () {
-      return id;
-   }
-
-   var getType = function () {
-      return type;
-   };
-
-   var getGender = function () {
-      return gender;
-   };
-
-   var getAge = function () {
-      return age;
-   };
-
-   var getBreed = function () {
-      return breed;
-   };
-
-   return {
-      newID: newID,
-      getID: getID
-
-   };
-
-});
+var petApp = angular.module("petApp", ["ui.bootstrap", "ngRoute", "ngResource", "ngAnimate", "ngCookies", "ngSanitize", "services"]);
 
 //ROUTES
 petApp.config(function ($routeProvider) {
@@ -52,21 +12,55 @@ petApp.config(function ($routeProvider) {
    })
 
    .when("/pets", {
-         templateUrl: "pages/pets.html",
-         controller: "petController"
-      })
-      //      .when("/petDetail", {
-      //         templateUrl: "pages/petDetail.html",
-      //         controller: "petDetailController"
-      //      })
+      templateUrl: "pages/pets.html",
+      controller: "petController"
+   })
 });
 
-
-
-
-
 //CONTROLLERS
-petApp.controller("homeController", ["$scope", "$location", "$routeParams", "sharedService", "$window", "$resource", "$cookies", function ($scope, $location, $routeParams, sharedService, $window, $resource, $cookies) {
+petApp.controller("homeController", ["$scope", "$location", "$routeParams", "sharedService", "$window", "$resource", "$cookies", "$http", "$uibModal", function ($scope, $location, $routeParams, sharedService, $window, $resource, $cookies, $http, $uibModal) {
+
+   if (navigator.geolocation) navigator.geolocation.getCurrentPosition(onPositionUpdate);
+
+   function onPositionUpdate(position) {
+      var lat = position.coords.latitude;
+      var lng = position.coords.longitude;
+      var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&sensor=true";
+      $http.get(url)
+         .then(function (result) {
+            var address = result.data.results[1].formatted_address;
+            $scope.address = address;
+            $scope.petAPI = $resource("http://api.petfinder.com/pet.find?key=fa55926ac35934c7a9cba7c6d287c446&format=json", {
+               callback: "JSON_CALLBACK"
+            }, {
+               get: {
+                  method: "JSONP"
+               }
+            });
+
+            $scope.petResult = $scope.petAPI.get({
+               location: $scope.address,
+               count: "8",
+            });
+
+            $scope.petResult.$promise.then(function (data) {
+               $scope.list = data.petfinder.pets.pet;
+            });
+         });
+   }
+   $scope.openModal = function (id) {
+      $scope.id = id;
+      var modalInstance = $uibModal.open({
+         animation: $scope.animationsEnabled,
+         templateUrl: '../pages/petDetail.html',
+         controller: 'petDetailController',
+         resolve: {
+            id: function () {
+               return $scope.id;
+            }
+         }
+      });
+   };
 
    $cookies.remove("options");
 
@@ -109,6 +103,7 @@ petApp.controller("homeController", ["$scope", "$location", "$routeParams", "sha
    $scope.$watch("zip", function () {
       sharedService.zip = $scope.zip;
    });
+   
    $scope.$watch("breed", function () {
       sharedService.breed = $scope.breed;
    });
@@ -116,6 +111,14 @@ petApp.controller("homeController", ["$scope", "$location", "$routeParams", "sha
    $scope.submit = function () {
       $location.path("/pets");
    }
+   
+   $scope.sex = function (sex) {
+      return sharedService.getSex(sex);
+   };
+
+   $scope.size = function (size) {
+      return sharedService.getSize(size);
+   };
 
    var getBreedList = function (type) {
       $scope.breedAPI = $resource("http://api.petfinder.com/breed.list?key=fa55926ac35934c7a9cba7c6d287c446&format=json", {
@@ -133,12 +136,6 @@ petApp.controller("homeController", ["$scope", "$location", "$routeParams", "sha
          angular.forEach(data.petfinder.breeds.breed, function (obj) {
             $scope.breedList.push(obj.$t);
          });
-         //      var now = new $window.Date(),
-         //         // this will set the expiration to 1 month
-         //         exp = new $window.Date(now.getFullYear(), now.getMonth() + 1, now.getDate());
-         //      $cookies.put('options', JSON.stringify($scope.options), {
-         //         expires: exp
-         //      });
       });
    }
 }]);
@@ -147,6 +144,9 @@ petApp.controller("homeController", ["$scope", "$location", "$routeParams", "sha
 
 //CONTROLLERS
 petApp.controller("petController", ["$scope", "$resource", "sharedService", "$window", "$cookies", "$uibModal", function ($scope, $resource, sharedService, $window, $cookies, $uibModal) {
+
+   $scope.transitionText = "Please wait while we search for pets near you..."
+   $scope.showBack = false;
 
    $scope.options = {
       zip: sharedService.zip,
@@ -187,9 +187,11 @@ petApp.controller("petController", ["$scope", "$resource", "sharedService", "$wi
    });
 
    $scope.petResult.$promise.then(function (data) {
+      if (!data.petfinder.pets) {
+         $scope.transitionText = "No pets were found in that location.";
+         $scope.showBack = true;
+      };
       $scope.petList = data.petfinder.pets.pet;
-      //$cookies.petList = $scope.petList;
-      console.log($scope.petList);
 
       $scope.totalItems = $scope.petList.length;
       $scope.currentPage = 1;
@@ -205,7 +207,7 @@ petApp.controller("petController", ["$scope", "$resource", "sharedService", "$wi
       }
 
       var now = new $window.Date(),
-         // this will set the expiration to 1 months
+         // this will set the expiration to 1 month
          exp = new $window.Date(now.getFullYear(), now.getMonth() + 1, now.getDate());
 
       $cookies.put('options', JSON.stringify($scope.options), {
@@ -215,66 +217,50 @@ petApp.controller("petController", ["$scope", "$resource", "sharedService", "$wi
 
    $scope.openModal = function (id) {
       $scope.id = id;
-         var modalInstance = $uibModal.open({
-            animation: $scope.animationsEnabled,
-            templateUrl: '../pages/petDetail.html',
-            controller: 'petDetailController',
-            resolve: {
-               id: function () {
-                  return $scope.id;
-               }
+      var modalInstance = $uibModal.open({
+         animation: $scope.animationsEnabled,
+         templateUrl: '../pages/petDetail.html',
+         controller: 'petDetailController',
+         resolve: {
+            id: function () {
+               return $scope.id;
             }
-         });
+         }
+      });
    };
 
    $scope.titleCase = function (type) {
-      if (type !== undefined) {
-         type = type.charAt(0).toUpperCase() + type.substring(1).toLowerCase();
-         return type + "'s" + " near " + $scope.zip;
-      }
+      return sharedService.titlCase(type);
    };
 
-
    $scope.isUndefined = function (data) {
-      if (data !== undefined)
-         return data + " & ";
+      return sharedService.isUndefined(data);
    };
 
    $scope.hasImage = function (img) {
-      if (img === undefined)
-         return "img/noimage.jpg";
-      else
-         return img;
+      return sharedService.hasImage(img);
    };
 
    $scope.sex = function (sex) {
-      if (sex === "M")
-         return "Male";
-      else
-         return "Female";
+      return sharedService.getSex(sex);
    };
 
    $scope.size = function (size) {
-      if (size === "S")
-         return "Small";
-      else if (size === "M")
-         return "Medium";
-      else if (size === "L")
-         return "Large";
-      else if (size === "XL")
-         return "Extra Large";
+      return sharedService.getSize(size);
    };
 
 }]);
 
 petApp.controller("petDetailController", ["$scope", "$resource", "sharedService", "id", "$uibModalInstance", "$window", function ($scope, $resource, sharedService, id, $uibModalInstance, $window) {
+   
+   $scope.cancel = function(){
+      $uibModalInstance.dismiss('cancel');
+   };
 
    $scope.myInterval = 4000;
    $scope.noWrapSlides = false;
    $scope.active = 0;
-   //$scope.id = sharedService.getID();
    $scope.id = id;
-   console.log(id);
 
    $scope.detailAPI = $resource("http://api.petfinder.com/pet.get?key=fa55926ac35934c7a9cba7c6d287c446&format=json", {
       callback: "JSON_CALLBACK"
@@ -290,20 +276,9 @@ petApp.controller("petDetailController", ["$scope", "$resource", "sharedService"
    }, function (data) {
 
    });
-   console.log($scope.perDetail);
+   console.log($scope.petDetail);
 
    $scope.getOptions = function (data) {
-      var options = "";
-      if (data !== undefined) {
-         for (var i = 0; i < data.length; i++) {
-            if (data[i + 1] !== undefined) {
-               options += data[i].$t + " - ";
-            } else {
-               options += data[i].$t;
-            }
-         }
-         return options;
-      }
+      return sharedService.getOptions(data);
    }
-
 }]);

@@ -2,16 +2,35 @@
 
 @import url(https://fonts.googleapis.com/css?family=Lato:400,300,700);
 @import url(https://fonts.googleapis.com/css?family=Philosopher:400,700);
+html {
+   height: 100%;
+}
+
 body {
-   background-color: antiquewhite;
+   background-color: #f8f8f8;
    font-family: Lato, sans-serif !important;
-   font-weight: 300;
+   font-weight: 300 !important;
+   height: 100%;
 }
 
 
 /****************
    HOME
 ****************/
+
+.featuredTitle {
+   font-size: 24px;
+   font-weight: 300;
+   padding-left: 9px;
+   margin-top: 20px;
+}
+
+#search {
+   background-image: linear-gradient(to bottom, #79d279, #339933);
+   border: none;
+   color: white;
+}
+
 .filter {
    width: 90px;
 }
@@ -22,29 +41,35 @@ input.form-control {
 
 .home-wrap {
    display: inline-block;
-   border-radius: 6px;
+   border-radius: 20px;
+   /*
    -webkit-box-shadow: 0px 0px 20px -1px rgba(0, 0, 0, 0.75);
    -moz-box-shadow: 0px 0px 20px -1px rgba(0, 0, 0, 0.75);
    box-shadow: 0px 0px 20px -1px rgba(0, 0, 0, 0.75);
+*/
    position: relative;
    background: rgba(255, 255, 255, 0.85);
-   width: 40%;
-   height: 40%;
+   width: 100%;
+   border: 2px solid lightgray;
+}
+
+.container {
+   position: relative;
+   padding: 20px;
+   background-color: #e6f2ff;
+   border-radius: 20px;
 }
 
 @media (max-width: 768px) {
    .home-wrap {
       width: 94%;
-      height: 70%;
    }
 }
 
 .home-wrap.center-both {
-   position: absolute;
-   top: 50%;
-   left: 50%;
-   transform: translate(-50%, -50%);
-   width: 90%;
+   margin: 0 auto;
+   display: block;
+   width: 100%;
 }
 
 .near {
@@ -62,6 +87,8 @@ input.form-control {
 #gender,
 #age {
    text-transform: capitalize;
+   background-image: linear-gradient(to bottom, #0066cc, #66b3ff);
+   border: none;
 }
 
 @media (max-width: 500px) {
@@ -78,6 +105,7 @@ input.form-control {
 .options {
    list-style: none;
    text-align: center;
+   padding: 0;
 }
 
 label {
@@ -89,11 +117,27 @@ label {
    PET LISTINGS
 ******************/
 
+.titleText {
+   font-weight: 300;
+}
+
+#backToSearch {
+   color: white;
+   background-image: linear-gradient(to bottom, #79d279, #339933);
+   position: absolute;
+   top: 20px;
+   left: 20px;
+   border: none;
+   font-weight: 300;
+}
+
 .name {
    text-transform: uppercase;
 }
 
 .listing {
+   border-radius: 10px;
+   cursor: pointer;
    background-color: white;
    font-family: Lato, sans-serif;
    width: 100%;
@@ -105,11 +149,22 @@ label {
    box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.75);
 }
 
+.homeListing {
+   border-radius: 10px;
+   cursor: pointer;
+   background-color: white;
+   font-family: Lato, sans-serif;
+   width: 100%;
+   border: 2px solid lightgray;
+   height: 330px;
+   overflow: hidden;
+}
+
 .grid-img {
    max-width: 100%;
    height: 100%;
    display: block;
-   margin: 0 auto;
+   margin: 8px auto 0 auto;
    padding: 6px;
 }
 
@@ -127,6 +182,7 @@ label {
 
 a {
    text-decoration: none !important;
+   outline: none !important;
 }
 
 hr {
@@ -142,7 +198,7 @@ hr {
 }
 
 .petInfo {
-   padding: 12px;
+   padding-top: 12px;
 }
 
 #logo-wrap {
@@ -173,15 +229,88 @@ hr {
    PET DETAILS PAGE
 ***********************/
 
+.glyphicon-chevron-right:before {
+   content: "\e080";
+   color: lightgray;
+   font-size: 34px;
+}
+
+.glyphicon-chevron-left:before {
+   content: "\e079";
+   color: lightgray;
+   font-size: 34px;
+}
+
+.carousel-control.right,
+.carousel-control.left {
+   background-image: none;
+}
+
+.carousel-indicators li {
+   border: 1px solid gray;
+   height: 16px;
+   width: 16px;
+   margin: 1px;
+}
+
+.carousel-indicators .active {
+   height: 16px;
+   width: 16px;
+   margin: 1px;
+   background-color: gray;
+}
+
+@media screen and (min-width: 768px) {
+   ol.carousel-indicators {
+      bottom: -36px !important;
+   }
+   .carousel-control .glyphicon-chevron-left {
+      position: absolute;
+      left: 20px;
+   }
+   .carousel-control .glyphicon-chevron-right {
+      position: absolute;
+      right: 20px;
+   }
+}
+
+div.modal-content {
+   overflow: auto;
+   border-radius: 20px;
+}
+
+button.close {
+   position: absolute;
+   top: 16px;
+   right: 16px;
+   font-size: 46px;
+   margin-right: 20px;
+   margin-top: 4px;
+   outline: none;
+}
+
+.adoptMeButton {
+   background-image: linear-gradient(to bottom, #0066cc, #66b3ff);
+   border: none;
+   color: white;
+   padding: 10px 8px;
+   border-radius: 6px;
+   font-size: 18px;
+   display: block;
+   text-align: center;
+}
+
 #details-box {
    background-color: white;
    width: 100%;
    margin: 0 auto;
+   padding: 20px 20px 20px 20px;
+   border-radius: 20px;
 }
 
 @media (max-width: 1000px) {
    #details-box {
-      width: 80%;
+      width: 100%;
    }
 }
 
@@ -194,10 +323,11 @@ hr {
 .contact {
    float: right;
    background-color: antiquewhite;
-   padding: 12px;
+   padding: 16px;
    display: block;
    clear: both;
-   margin: 10px;
+   border-radius: 10px;
+   margin: 0 0 6px 6px;
 }
 
 @media (max-width: 500px) {
@@ -209,10 +339,11 @@ hr {
 }
 
 .moreAbout {
+   border-radius: 10px;
    background-color: antiquewhite;
    display: block;
-   margin: 10px;
    padding: 10px;
+   margin: 12px 0 20px 0;
 }
 
 .clearfix:after {
@@ -227,4 +358,11 @@ hr {
 
 .slider-img {
    max-height: 320px;
+   border-radius: 20px;
+}
+
+#loadingLogo {
+   margin: 20px;
+   display: block;
+   margin: 0 auto;
 }

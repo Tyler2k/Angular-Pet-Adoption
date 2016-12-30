@@ -1,15 +1,15 @@
 <div ng-show="list">
-   <p>
-      <a href="#/">
-         <input type="submit" href="#/" class="btn btn-success" value="Back to Search" />
-      </a>
-   </p>
-
+   <div id="logo-wrap">
+         <img id="logo" class="img-responsive" src="img/logo.png">
+         <span id="title">ADOPT HOPE</span>
+      </div>
+   <a href="#/">
+      <input type="submit" href="#/" class="btn" id="backToSearch" value="Back To Search" />
+   </a>
    <h1 class="near text-center">{{type}}</h1>
    <hr />
-   <h3 class="text-center">Click on a pet for more information</h3>
+   <h3 class="text-center titleText">Click on a pet for more information</h3>
    <br />
-
    <div ng-repeat="dog in list" class="petContainer">
       <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
          <a ng-click="openModal(dog.id.$t)">
@@ -31,5 +31,9 @@
    </div>
 </div>
 <div ng-show="!list">
-   <h2 class="text-center">Please wait while we find pets near you...</h2>
+   <h2 class="text-center titleText">{{transitionText}}</h2>
+   <img id="loadingLogo" ng-show="!showBack" src="img/gears.svg" alt="">
+   <a href="#/">
+      <input ng-show="showBack" type="submit" href="#/" class="btn" id="backToSearch" value="Back to Search" style="color: white; margin: 0 auto; display: block;" />
+   </a>
 </div>
